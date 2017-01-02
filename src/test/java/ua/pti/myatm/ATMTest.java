@@ -21,7 +21,7 @@ import java.lang.reflect.*;
 public class ATMTest {
 
     @Rule
-    public ExpectedException ise = ExpectedException.none();
+    public ExpectedException expectedExc = ExpectedException.none();
 
     @Test
     public void testConstructor() {
@@ -52,8 +52,8 @@ public class ATMTest {
 
     @Test
     public void testConstructor_ThrowException() {
-        ise.expect(IllegalArgumentException.class);
-        ise.expectMessage("Money in ATM Should Be Greater Than or Equals to 0!");
+        expectedExc.expect(IllegalArgumentException.class);
+        expectedExc.expectMessage("Money in ATM Should Be Greater Than or Equals to 0!");
         ATM atm = new ATM(-0.01);
     }
 
@@ -80,8 +80,8 @@ public class ATMTest {
     @Test
     public void testGetMoneyInATM_ThrowsException() {
         System.out.println("Testing getMoneyInATM: Throws Exception");
-        ise.expect(IllegalStateException.class);
-        ise.expectMessage("No Card Inserted!");
+        expectedExc.expect(IllegalStateException.class);
+        expectedExc.expectMessage("No Card Inserted!");
 
         ATM atm = new ATM(1000.0);
         atm.getMoneyInATM();
@@ -183,8 +183,8 @@ public class ATMTest {
 
         ATM atm = new ATM(1000.0);
 
-        ise.expect(IllegalStateException.class);
-        ise.expectMessage("No Card Inserted!");
+        expectedExc.expect(IllegalStateException.class);
+        expectedExc.expectMessage("No Card Inserted!");
 
         try {
             Field isForbidden = atm.getClass().getDeclaredField("isForbidden");
@@ -249,8 +249,8 @@ public class ATMTest {
             System.out.println(e.getMessage());
         }
 
-        ise.expect(IllegalStateException.class);
-        ise.expectMessage("No Card Inserted!");
+        expectedExc.expect(IllegalStateException.class);
+        expectedExc.expectMessage("No Card Inserted!");
 
         atm.getCash(10000.0);
     }
@@ -270,8 +270,8 @@ public class ATMTest {
             System.out.println(e.getMessage());
         }
 
-        ise.expect(IllegalArgumentException.class);
-        ise.expectMessage("Amount Should Be Greater Than Zero!");
+        expectedExc.expect(IllegalArgumentException.class);
+        expectedExc.expectMessage("Amount Should Be Greater Than Zero!");
 
         double amount = -0.01;
         atm.getCash(amount);
@@ -299,8 +299,8 @@ public class ATMTest {
             System.out.println(e.getMessage());
         }
 
-        ise.expect(IllegalArgumentException.class);
-        ise.expectMessage("Not Enough Money In Account!");
+        expectedExc.expect(IllegalArgumentException.class);
+        expectedExc.expectMessage("Not Enough Money In Account!");
 
         double balance = 100000.0;
         double amount = 100000.01;
@@ -340,8 +340,8 @@ public class ATMTest {
         when(card.getAccount()).thenReturn(acc);
         when(acc.getBalance()).thenReturn(balance);
 
-        ise.expect(IllegalStateException.class);
-        ise.expectMessage("Not Enough Money In ATM!");
+        expectedExc.expect(IllegalStateException.class);
+        expectedExc.expectMessage("Not Enough Money In ATM!");
 
         atm.getCash(amount);
     }
